@@ -85,20 +85,23 @@ ReactDOM.render(
 - This would look a lot like this.
 
 ```
-function myCleverAction = () => dispatch => {
-  const request = axios.get('https://someRadUrlAPI.com/api/coolness);
-  request.then(({data}) => {
-    dispatch({type: GET_COOL_THING, payload: data.things});
-  })
-  .catch(err => {
-    dispatch({type: ERROR_GETTING_THINGS, error: err});
-  });
-};
+export const myCleverAction = () => {
+  return dispatch => {
+    const request = axios.get('https://someRadUrlAPI.com/api/coolness');
+    request.then(({data}) => {
+      dispatch({type: GET_COOL_THING, payload: data.things});
+    })
+    .catch(err => {
+      dispatch({type: ERROR_GETTING_THINGS, error: err});
+    });
+  } 
+}
+;
 ```
 
 - This is an `http` request, and at this point in time, it is a promise.
 - Our promise resolves here with data in this `.then` block
-- Now we just call the `dispatch` method which has ben exposed to us through our `thunk` middleware.
+- Now we just call the `dispatch` function which has been exposed to us through our `thunk` middleware.
 - This looks like a lot of boiler plate, but it's actually a controlled, and eloquent solution to big problems often caused by `cross-site-scripting` and making `http` requests.
 
 ## redux-logger
@@ -113,7 +116,7 @@ import logger from 'redux-logger';
 applyMiddleware(thunk, logger);
 ```
 
-- As soon as your app starts dispatching actions, you'll see a very delightful log of these actions in the console :) Feel free to disable this at anytime if logs get to busy or if you just simply prefer to use the dev tools.
+- As soon as your app starts dispatching actions, you'll see a very delightful log of these actions in the console :) Feel free to disable this at anytime if logs get too busy or if you just simply prefer to use the dev tools.
 
 ## Project
 
